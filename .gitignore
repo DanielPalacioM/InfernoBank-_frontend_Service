@@ -1,32 +1,33 @@
-# Angular
-node_modules/
-dist/
-.angular/
-.cache/
-.tmp/
+# Angular build output
+/dist
+/.angular/cache
 
-# Terraform
-*.tfstate
-*.tfstate.*
-.terraform/
-.terraform.lock.hcl
-terraform.tfvars
-*.tfplan
-
-# Logs y temporales
+# Node
+/node_modules
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-package-lock.json
 
-# Archivos del sistema
+# Environment files
+/src/environments/environment*.ts
+
+# System files
 .DS_Store
 Thumbs.db
 
-# Archivos de entorno
-.env
-.env.*
-*.pem
+# VSCode
+.vscode/*
 
-# Scripts locales
-deploy.sh
+# Terraform
+**/.terraform/*
+**/.terraform.lock.hcl
+*.tfstate
+*.tfstate.backup
+
+# AWS deployment scripts / credentials
+*.pem
+*.sh
+*.env
+
+# Others
+.idea/
