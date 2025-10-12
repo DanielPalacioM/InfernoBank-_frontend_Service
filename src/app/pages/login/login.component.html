@@ -1,0 +1,26 @@
+<div class="login-wrapper">
+  <div class="login-card">
+    <div class="login-header">
+      <h2>Bienvenido de nuevo</h2>
+      <p>Inicia sesión para acceder a tu cuenta</p>
+    </div>
+
+    <form [formGroup]="loginForm" (ngSubmit)="loginUser()">
+      <div class="form-group">
+        <input formControlName="email" type="email" placeholder="Correo electrónico" />
+      </div>
+
+      <div class="form-group">
+        <input formControlName="password" type="password" placeholder="Contraseña" />
+      </div>
+
+      <button type="submit" [disabled]="loading">
+        {{ loading ? 'Ingresando...' : 'Entrar' }}
+      </button>
+    </form>
+
+    <div class="login-footer">
+      <p>¿No tienes cuenta? <a href="register">Regístrate aquí</a></p>
+    </div>
+  </div>
+</div>
