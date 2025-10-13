@@ -1,0 +1,15 @@
+<div *ngIf="loading">Cargando catálogo...</div>
+<table *ngIf="!loading">
+  <tr>
+    <th>ID</th>
+    <th>Nombre</th>
+    <th>Descripción</th>
+    <th>Precio</th>
+  </tr>
+  <tr *ngFor="let card of cards">
+    <td>{{ card.id }}</td>
+    <td>{{ card.name }}</td>
+    <td>{{ card.description }}</td>
+    <td>{{ card.price | currency }}</td>
+  </tr>
+</table>

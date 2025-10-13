@@ -1,0 +1,17 @@
+<div *ngIf="loading">Cargando pagos...</div>
+<table *ngIf="!loading">
+  <tr>
+    <th>ID</th>
+    <th>Monto</th>
+    <th>Estado</th>
+    <th>Trace ID</th>
+    <th>Fecha</th>
+  </tr>
+  <tr *ngFor="let pay of payments">
+    <td>{{ pay.id }}</td>
+    <td>{{ pay.amount | currency }}</td>
+    <td>{{ pay.status }}</td>
+    <td>{{ pay.traceId }}</td>
+    <td>{{ pay.date }}</td>
+  </tr>
+</table>

@@ -1,18 +1,18 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, tap } from 'rxjs';
-import { environment } from '../../../../enviroments/enviroment'; 
+import { environment } from '../../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  // 👇 Cambiamos esto
-  private apiUrl = `${environment.endpoints.users}/auth`;
+  private usersApi = environment.endpoints.users;
+  private registerApi = environment.endpoints.register;
 
   constructor(private http: HttpClient) {}
 
-  /** 🔑 Registro de usuario */
+  /** 📝 Registro */
   register(data: {
     name: string;
     lastName: string;
@@ -20,33 +20,46 @@ export class AuthService {
     password: string;
     document: string;
   }): Observable<any> {
-    return this.http.post(`${this.apiUrl}/register`, data);
+    return this.http.post(`${this.registerApi}/user`, data);
   }
 
-  /** 🔐 Inicio de sesión */
+  /** 🔐 Login */
   login(data: { email: string; password: string }): Observable<any> {
-    return this.http.post(`${this.apiUrl}/login`, data).pipe(
+    console.log('📤 Enviando login:', data);
+    return this.http.post(`${this.usersApi}/login`, data).pipe(
       tap((res: any) => {
-        if (res.token) {
+        console.log('✅ Respuesta completa del backend:', res);
+
+        // Guarda token si existe
+        if (res?.token) {
           localStorage.setItem('token', res.token);
-          if (res.user?.id) localStorage.setItem('userId', res.user.id);
+        } else if (res?.body?.token) {
+          // por si AWS devuelve el token dentro de body
+          localStorage.setItem('token', res.body.token);
+        }
+
+        // Guarda el userId si viene en la respuesta
+        if (res?.user?.id) {
+          localStorage.setItem('userId', res.user.id);
+        } else if (res?.body?.user?.id) {
+          localStorage.setItem('userId', res.body.user.id);
         }
       })
     );
   }
 
   /** 🚪 Cerrar sesión */
-  logout() {
+  logout(): void {
     localStorage.removeItem('token');
     localStorage.removeItem('userId');
   }
 
-  /** 🧾 Obtener token actual */
+  /** 📦 Obtener token */
   getToken(): string | null {
     return localStorage.getItem('token');
   }
 
-  /** ✅ Verificar si el usuario está logueado */
+  /** 🔎 Verificar autenticación */
   isAuthenticated(): boolean {
     return !!localStorage.getItem('token');
   }

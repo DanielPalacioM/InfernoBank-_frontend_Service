@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
-import { AuthService } from '../../services/authService/auth-service/auth-service.service'; 
+import { AuthService } from '../../services/authService/auth-service/auth-service.service';
 
 @Component({
   selector: 'app-login',
@@ -15,7 +15,11 @@ export class LoginComponent implements OnInit {
   loginForm!: FormGroup;
   loading = false;
 
-  constructor(private fb: FormBuilder, private authService: AuthService, private router: Router) {}
+  constructor(
+    private fb: FormBuilder,
+    private authService: AuthService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     this.loginForm = this.fb.group({
@@ -26,18 +30,38 @@ export class LoginComponent implements OnInit {
 
   loginUser(): void {
     if (this.loginForm.invalid) return;
+
     this.loading = true;
 
     this.authService.login(this.loginForm.value).subscribe({
       next: (res: any) => {
-        alert('Inicio de sesión exitoso');
-        this.router.navigate(['/profile']);
+        console.log('Respuesta completa del backend:', res);
+
+        // Parsear body si viene como string
+        const body = typeof res.body === 'string' ? JSON.parse(res.body) : res.body;
+        const token = body.token;
+
+        if (token) {
+          // Guardar token en localStorage
+          localStorage.setItem('token', token);
+
+          alert('Inicio de sesión exitoso ✅');
+          console.log('Token recibido:', token);
+
+          // Redirigir a Home
+          this.router.navigate(['/home']);
+        } else {
+          alert('El servidor no devolvió un token válido ❌');
+          console.warn('Token no encontrado en la respuesta:', res);
+        }
+
+        this.loading = false;
       },
       error: (err: any) => {
-        console.error(err);
-        alert('Error al iniciar sesión');
-      },
-      complete: () => (this.loading = false)
+        console.error('Error en login:', err);
+        alert('Error al iniciar sesión ❌');
+        this.loading = false;
+      }
     });
   }
 }
