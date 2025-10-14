@@ -29,39 +29,35 @@ export class LoginComponent implements OnInit {
   }
 
   loginUser(): void {
-    if (this.loginForm.invalid) return;
+  if (this.loginForm.invalid) return;
 
-    this.loading = true;
+  this.loading = true;
 
-    this.authService.login(this.loginForm.value).subscribe({
-      next: (res: any) => {
-        console.log('Respuesta completa del backend:', res);
+  this.authService.login(this.loginForm.value).subscribe({
+    next: (res: any) => {
+      console.log('✅ Respuesta del backend:', res);
 
-        // Parsear body si viene como string
-        const body = typeof res.body === 'string' ? JSON.parse(res.body) : res.body;
-        const token = body.token;
+      // Aquí Angular ya parsea el JSON automáticamente
+      const token = res?.token;
 
-        if (token) {
-          // Guardar token en localStorage
-          localStorage.setItem('token', token);
+      if (token) {
+        localStorage.setItem('token', token);
+        alert('Inicio de sesión exitoso ✅');
+        console.log('Token recibido:', token);
 
-          alert('Inicio de sesión exitoso ✅');
-          console.log('Token recibido:', token);
-
-          // Redirigir a Home
-          this.router.navigate(['/home']);
-        } else {
-          alert('El servidor no devolvió un token válido ❌');
-          console.warn('Token no encontrado en la respuesta:', res);
-        }
-
-        this.loading = false;
-      },
-      error: (err: any) => {
-        console.error('Error en login:', err);
-        alert('Error al iniciar sesión ❌');
-        this.loading = false;
+        this.router.navigate(['/home']);
+      } else {
+        alert('El servidor no devolvió un token válido ❌');
+        console.warn('Token no encontrado en la respuesta:', res);
       }
-    });
-  }
+
+      this.loading = false;
+    },
+    error: (err: any) => {
+      console.error('💥 Error en login:', err);
+      alert('Error al iniciar sesión ❌');
+      this.loading = false;
+    }
+  });
+}
 }

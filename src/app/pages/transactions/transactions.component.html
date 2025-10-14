@@ -24,10 +24,22 @@
 
   <hr class="my-6" />
 
-  <h3 class="text-lg font-semibold mb-3">Nueva Transferencia</h3>
-  <form (ngSubmit)="createTransaction()" class="grid grid-cols-1 md:grid-cols-3 gap-3">
-    <input [(ngModel)]="transferData.destination" name="destination" placeholder="Documento destino" class="input" />
-    <input [(ngModel)]="transferData.amount" name="amount" placeholder="Monto" type="number" class="input" />
-    <button type="submit" class="btn-yellow">Enviar</button>
+  <!-- 💳 Recargar dinero -->
+  <h3 class="text-lg font-semibold mb-3">Recargar dinero</h3>
+  <form (ngSubmit)="addMoney()" class="grid grid-cols-1 md:grid-cols-3 gap-3">
+    <input [(ngModel)]="addMoneyData.cardId" name="cardId" placeholder="ID tarjeta" class="input" />
+    <input [(ngModel)]="addMoneyData.amount" name="amount" placeholder="Monto" type="number" class="input" />
+    <button type="submit" class="btn-yellow">Recargar</button>
   </form>
+
+  <hr class="my-6" />
+
+  <h3 class="text-lg font-semibold mb-3">Nueva Compra</h3>
+  <form (ngSubmit)="makePurchase()" class="grid grid-cols-1 md:grid-cols-3 gap-3">
+  <input [(ngModel)]="purchaseData.cardId" name="cardId" placeholder="ID de la tarjeta (UUID)" class="input" />
+  <input [(ngModel)]="purchaseData.merchant" name="merchant" placeholder="Nombre del comercio" class="input" />
+  <input [(ngModel)]="purchaseData.amount" name="amount" placeholder="Monto" type="number" class="input" />
+  <button type="submit" class="btn-yellow">Comprar</button>
+</form>
+
 </div>

@@ -10,17 +10,29 @@ import { UserService } from '../../services/userService/userService/user.service
   templateUrl: './home.component.html'
 })
 export class HomeComponent implements OnInit {
-  balance = 0;
+  balance: number | null = null;
+  loading = true;
 
   constructor(private userService: UserService) {}
 
   ngOnInit(): void {
     const userId = localStorage.getItem('userId');
-    if (userId) {
-      this.userService.getProfile(userId).subscribe({
-        next: (res) => this.balance = res.balance || 0,
-        error: (err) => console.error(err)
-      });
+
+    if (!userId) {
+      console.error('❌ No se encontró el userId en localStorage.');
+      this.loading = false;
+      return;
     }
+
+    this.userService.getProfile(userId).subscribe({
+      next: (res) => {
+        this.balance = res.balance ?? 0;
+        this.loading = false;
+      },
+      error: (err) => {
+        console.error('Error obteniendo perfil:', err);
+        this.loading = false;
+      }
+    });
   }
 }

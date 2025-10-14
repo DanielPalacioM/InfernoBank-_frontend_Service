@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { TransactionService } from '../../services/transaction/transaction/transaction.service'; 
+import { TransactionService } from '../../services/transaction/transaction/transaction.service';
 
 @Component({
   selector: 'app-transactions',
@@ -11,7 +11,10 @@ import { TransactionService } from '../../services/transaction/transaction/trans
 })
 export class TransactionsComponent implements OnInit {
   transactions: any[] = [];
-  transferData = { destination: '', amount: 0 };
+
+  // 📦 Datos para los formularios
+  addMoneyData = { cardId: '', amount: 0 };
+  purchaseData = { cardId: '', amount: 0, merchant: '' };
 
   constructor(private txService: TransactionService) {}
 
@@ -19,26 +22,57 @@ export class TransactionsComponent implements OnInit {
     this.loadTransactions();
   }
 
+  // 📜 Cargar historial de transacciones
   loadTransactions() {
-    const userId = localStorage.getItem('userId');
-    if (!userId) return;
-
-    this.txService.getUserTransactions(userId).subscribe({
-      next: (res) => this.transactions = res || [],
-      error: (err) => console.error(err)
+    this.txService.getTransactions().subscribe({
+      next: (res) => {
+        this.transactions = res || [];
+        console.log('Transacciones cargadas:', this.transactions);
+      },
+      error: (err) => console.error('Error al obtener transacciones:', err)
     });
   }
 
-  createTransaction() {
-    const userId = localStorage.getItem('userId');
-    if (!userId) return;
+  // 💳 Recargar dinero
+  addMoney() {
+    if (!this.addMoneyData.cardId || !this.addMoneyData.amount) {
+      alert('Por favor completa los campos de recarga.');
+      return;
+    }
 
-    this.txService.createTransaction(userId, this.transferData).subscribe({
-      next: () => {
-        alert('Transferencia realizada');
+    this.txService.addMoney(this.addMoneyData.cardId, this.addMoneyData.amount).subscribe({
+      next: (res) => {
+        alert('💰 Dinero agregado con éxito');
+        console.log('Respuesta:', res);
         this.loadTransactions();
       },
-      error: (err) => console.error(err)
+      error: (err) => {
+        console.error('Error al agregar dinero:', err);
+        alert('Error al agregar dinero ❌');
+      }
     });
   }
+
+  // 🛒 Realizar compra
+  // 🛒 Realizar compra
+makePurchase() {
+  const { cardId, amount, merchant } = this.purchaseData;
+
+  if (!cardId || !amount || !merchant) {
+    alert('Por favor completa todos los campos de compra.');
+    return;
+  }
+
+  this.txService.makePurchase({ cardId, amount, merchant }).subscribe({
+    next: (res) => {
+      alert('🛒 Compra realizada con éxito');
+      console.log('Respuesta:', res);
+      this.loadTransactions();
+    },
+    error: (err) => {
+      console.error('Error al realizar compra:', err);
+      alert('Error al realizar la compra ❌');
+    }
+  });
+}
 }

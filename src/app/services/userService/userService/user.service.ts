@@ -6,27 +6,24 @@ import { Observable } from 'rxjs';
 export class UserService {
   constructor(private api: ApiService) {}
 
-  // Obtener perfil del usuario
-  getProfile(userId: string): Observable<any> {
-    return this.api.get('users', `/profile/${userId}`);
-  }
-
-  // Crear usuario nuevo
   createUser(data: any): Observable<any> {
-    return this.api.post('users', '/user', data);
+    return this.api.post('register', '/user', data);
   }
 
-  // Login de usuario
   login(data: { email: string; password: string }): Observable<any> {
     return this.api.post('users', '/login', data);
   }
 
-  // Actualizar perfil (usa PUT /PROFILE/{userId})
-  updateProfile(userId: string, data: any): Observable<any> {
-    return this.api.put('users', `/PROFILE/${userId}`, data);
+  /** ✅ Obtener perfil desde la URL real */
+  getProfile(userId: string): Observable<any> {
+    // la ruta base ya apunta a dev2/pr0file
+    return this.api.get('profile', `/${userId}`);
   }
 
-  // Subir avatar (usa POST /profile/{userId}/avatar)
+  updateProfile(userId: string, data: any): Observable<any> {
+    return this.api.put('users', `/profile/${userId}`, data);
+  }
+
   uploadAvatar(userId: string, avatar: File): Observable<any> {
     const formData = new FormData();
     formData.append('avatar', avatar);

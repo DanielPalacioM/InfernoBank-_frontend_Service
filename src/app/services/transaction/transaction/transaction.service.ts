@@ -1,33 +1,47 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { environment } from '../../../../environments/environment'; 
+import { environment } from '../../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TransactionService {
-  private apiBase = `${environment.endpoints.transactions}`;
+  /** 
+   * 💳 Endpoints base definidos en environment.ts 
+   * - apiActionsUrl → para operaciones de guardar o comprar
+   * - apiListUrl → para consultar transacciones
+   */
+  private readonly apiActionsUrl = environment.endpoints.transactionsActions;
+  private readonly apiListUrl = environment.endpoints.transactionsList;
 
   constructor(private http: HttpClient) {}
 
-  getUserTransactions(userId: string): Observable<any> {
-    return this.http.get(`${this.apiBase}/user/${userId}`);
+  /** 🔐 Construye headers con token si existe */
+  private getHeaders(): HttpHeaders {
+    const token = localStorage.getItem('token');
+    return new HttpHeaders({
+      'Content-Type': 'application/json',
+      ...(token ? { Authorization: `Bearer ${token}` } : {})
+    });
   }
 
-  createTransaction(userId: string, data: { destination: string; amount: number }): Observable<any> {
-    return this.http.post(`${this.apiBase}/create`, { userId, ...data });
+  /** 💰 Recargar dinero en la tarjeta */
+  addMoney(cardId: string, amount: number): Observable<any> {
+    const body = { merchant: 'SAVING', amount };
+    const url = `${this.apiActionsUrl}/save/${cardId}`;
+    return this.http.post(url, body, { headers: this.getHeaders() });
   }
 
-  getTransactionById(transactionId: string): Observable<any> {
-    return this.http.get(`${this.apiBase}/${transactionId}`);
+  /** 🛒 Realizar una compra */
+  makePurchase(data: { cardId: string; amount: number; merchant: string }): Observable<any> {
+    const url = `${this.apiActionsUrl}/purchase`;
+    return this.http.post(url, data, { headers: this.getHeaders() });
   }
 
-  filterTransactions(userId: string, filters: any): Observable<any> {
-    return this.http.post(`${this.apiBase}/filter/${userId}`, filters);
-  }
-
-  deleteTransaction(transactionId: string): Observable<any> {
-    return this.http.delete(`${this.apiBase}/${transactionId}`);
+  /** 📜 Consultar historial de transacciones */
+  getTransactions(): Observable<any> {
+    const url = `${this.apiListUrl}`;
+    return this.http.get(url, { headers: this.getHeaders() });
   }
 }
