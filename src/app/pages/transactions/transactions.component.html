@@ -1,45 +1,69 @@
-<div class="p-6 bg-white rounded-2xl shadow-md">
-  <h2 class="text-xl font-semibold mb-4">Historial de Transacciones</h2>
+<div class="transactions-container">
+  <h2>📜 Historial de Transacciones</h2>
 
-  <div class="mb-4">
+  <div class="mb-4 text-center">
     <button (click)="loadTransactions()" class="btn-blue">Actualizar</button>
   </div>
 
-  <table class="min-w-full text-left border">
-    <thead class="bg-blue-800 text-white">
+  <table>
+    <thead>
       <tr>
-        <th class="p-2">Fecha</th>
-        <th class="p-2">Descripción</th>
-        <th class="p-2">Monto</th>
+        <th>Fecha</th>
+        <th>Descripción</th>
+        <th>Monto</th>
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let tx of transactions" class="border-b">
-        <td class="p-2">{{ tx.date }}</td>
-        <td class="p-2">{{ tx.description }}</td>
-        <td class="p-2 text-right">{{ tx.amount | currency:'COP' }}</td>
+      <tr *ngFor="let tx of transactions">
+        <td>{{ tx.date }}</td>
+        <td>{{ tx.description }}</td>
+        <td class="text-right">{{ tx.amount | currency:'COP' }}</td>
       </tr>
     </tbody>
   </table>
 
-  <hr class="my-6" />
+  <hr />
 
-  <!-- 💳 Recargar dinero -->
-  <h3 class="text-lg font-semibold mb-3">Recargar dinero</h3>
-  <form (ngSubmit)="addMoney()" class="grid grid-cols-1 md:grid-cols-3 gap-3">
-    <input [(ngModel)]="addMoneyData.cardId" name="cardId" placeholder="ID tarjeta" class="input" />
-    <input [(ngModel)]="addMoneyData.amount" name="amount" placeholder="Monto" type="number" class="input" />
-    <button type="submit" class="btn-yellow">Recargar</button>
+  <!-- 💰 Recargar dinero -->
+  <h3>💰 Recargar dinero</h3>
+  <form (ngSubmit)="addMoney()" class="form-grid">
+    <div class="form-group">
+      <label for="cardId">ID de la tarjeta</label>
+      <input [(ngModel)]="addMoneyData.cardId" id="cardId" name="cardId" placeholder="UUID de tarjeta" class="input" />
+    </div>
+
+    <div class="form-group">
+      <label for="amount">Monto</label>
+      <input [(ngModel)]="addMoneyData.amount" id="amount" name="amount" placeholder="Monto a recargar" type="number" class="input" />
+    </div>
+
+    <div class="form-group button-container">
+      <button type="submit" class="btn-yellow">Recargar</button>
+    </div>
   </form>
 
-  <hr class="my-6" />
+  <hr />
 
-  <h3 class="text-lg font-semibold mb-3">Nueva Compra</h3>
-  <form (ngSubmit)="makePurchase()" class="grid grid-cols-1 md:grid-cols-3 gap-3">
-  <input [(ngModel)]="purchaseData.cardId" name="cardId" placeholder="ID de la tarjeta (UUID)" class="input" />
-  <input [(ngModel)]="purchaseData.merchant" name="merchant" placeholder="Nombre del comercio" class="input" />
-  <input [(ngModel)]="purchaseData.amount" name="amount" placeholder="Monto" type="number" class="input" />
-  <button type="submit" class="btn-yellow">Comprar</button>
-</form>
+  <!-- 🛒 Nueva compra -->
+  <h3>🛒 Nueva Compra</h3>
+  <form (ngSubmit)="makePurchase()" class="form-grid">
+    <div class="form-group">
+      <label for="purchaseCard">ID de la tarjeta</label>
+      <input [(ngModel)]="purchaseData.cardId" id="purchaseCard" name="cardId" placeholder="UUID de tarjeta" class="input" />
+    </div>
 
+    <div class="form-group">
+      <label for="merchant">Comercio</label>
+      <input [(ngModel)]="purchaseData.merchant" id="merchant" name="merchant" placeholder="Nombre del comercio" class="input" />
+    </div>
+
+    <div class="form-group">
+      <label for="purchaseAmount">Monto</label>
+      <input [(ngModel)]="purchaseData.amount" id="purchaseAmount" name="amount" placeholder="Valor de compra" type="number" class="input" />
+    </div>
+
+    <div class="form-group button-container">
+      <button type="submit" class="btn-yellow">Comprar</button>
+    </div>
+  </form>
 </div>

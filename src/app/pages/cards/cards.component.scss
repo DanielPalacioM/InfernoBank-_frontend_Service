@@ -1,0 +1,117 @@
+:host {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: linear-gradient(135deg, #0033a0 0%, #00a1e4 100%);
+  font-family: "Poppins", sans-serif;
+}
+
+/* Wrapper principal */
+.card-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+/* Tarjeta principal */
+.card-container {
+  background: #ffffff;
+  width: 400px;
+  border-radius: 20px;
+  padding: 2.5rem 2rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+  text-align: center;
+  animation: fadeIn 0.8s ease-out;
+}
+
+/* Imagen superior */
+.card-image {
+  width: 90px;
+  height: auto;
+  margin-bottom: 1rem;
+  animation: float 3s ease-in-out infinite;
+}
+
+/* Cabecera */
+.card-header h2 {
+  color: #0033a0;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.card-header p {
+  color: #444;
+  font-size: 15px;
+  margin-top: 0.3rem;
+}
+
+.card-header .active {
+  color: #00a12a;
+  font-weight: 600;
+}
+
+.card-header .inactive {
+  color: #ff4d4d;
+  font-weight: 600;
+}
+
+/* Botón activar */
+.activate-btn {
+  margin-top: 1.8rem;
+  padding: 12px;
+  background: linear-gradient(90deg, #ffc300, #ffd633);
+  color: #0033a0;
+  border: none;
+  border-radius: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  width: 100%;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.activate-btn:hover {
+  transform: translateY(-2px);
+  background: linear-gradient(90deg, #ffd633, #ffe066);
+}
+
+.activate-btn:disabled {
+  background: #ddd;
+  color: #888;
+  cursor: not-allowed;
+}
+
+/* Mensaje de tarjeta activada */
+.activated-banner {
+  background: #e6ffed;
+  color: #007f3f;
+  font-weight: 600;
+  padding: 14px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 128, 64, 0.1);
+  margin-top: 1rem;
+  animation: fadeIn 0.6s ease-out;
+}
+
+/* ✨ Animaciones */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(25px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}

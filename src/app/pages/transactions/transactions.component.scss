@@ -1,0 +1,149 @@
+:host {
+  display: block;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #0033a0 0%, #0072ce 100%);
+  font-family: "Poppins", sans-serif;
+  color: #fff;
+  padding: 2rem;
+}
+
+/* 🧱 Contenedor principal */
+.transactions-container {
+  max-width: 950px;
+  margin: 0 auto;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(14px);
+  border-radius: 20px;
+  padding: 2rem;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+}
+
+/* 🏦 Título */
+h2 {
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  text-align: center;
+  color: #ffe145;
+}
+
+/* 💰 Tabla */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+  overflow: hidden;
+  border-radius: 12px;
+}
+
+thead {
+  background: #0033a0;
+  color: #fff;
+}
+
+th, td {
+  padding: 0.9rem 1rem;
+}
+
+tbody tr {
+  background: rgba(255, 255, 255, 0.9);
+  color: #0033a0;
+}
+
+tbody tr:nth-child(even) {
+  background: rgba(245, 245, 255, 0.95);
+}
+
+tbody tr:hover {
+  background: #ffd633;
+  color: #0033a0;
+  transform: scale(1.01);
+}
+
+.form-grid {
+  display: grid;
+  gap: 5rem; // <-- más espacio entre columnas
+  margin-top: 1rem;
+
+  @media (min-width: 768px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem; // espacio entre label y input
+  margin-bottom: 0,5rem; // <-- espacio entre filas
+}
+
+.form-group label {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #ffe145;
+  margin-left: 2px;
+}
+
+.input {
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  padding: 0.7rem 1rem;
+  font-size: 15px;
+  color: #0033a0;
+  transition: 0.3s;
+  background: #fff;
+  width: 100%;
+}
+
+.input:focus {
+  border-color: #0072ce;
+  box-shadow: 0 0 6px rgba(0, 114, 206, 0.4);
+  outline: none;
+}
+
+/* 🟡 Botones más centrados y con espacio arriba */
+.button-container {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  margin-top: 1.2rem;
+}
+
+.btn-yellow {
+  background: linear-gradient(90deg, #ffc300, #ffd633);
+  color: #0033a0;
+  font-weight: 600;
+  border: none;
+  border-radius: 10px;
+  padding: 0.8rem 1.5rem;
+  transition: all 0.3s ease;
+  width: 100%;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
+}
+
+.btn-yellow:hover {
+  transform: translateY(-2px);
+  background: linear-gradient(90deg, #ffd633, #ffe066);
+}
+
+/* 🧱 Contenedor de cada sección del formulario */
+form {
+  background: rgba(255, 255, 255, 0.08);
+  padding: 1.2rem;
+  border-radius: 12px;
+  margin-bottom: 2rem;
+}
+
+/* Títulos de secciones */
+h3 {
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #ffe145;
+}
+
+/* Espacio debajo de las tablas */
+table {
+  margin-bottom: 2rem;
+}

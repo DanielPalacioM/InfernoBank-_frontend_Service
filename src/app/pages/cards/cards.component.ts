@@ -1,77 +1,68 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
 import { CardService } from '../../services/card/card/card.service';
+import confetti from 'canvas-confetti'; // 🎉 importamos la librería
 
 @Component({
   selector: 'app-cards',
   standalone: true,
-  imports: [CommonModule, FormsModule],
-  templateUrl: './cards.component.html'
+  imports: [CommonModule],
+  templateUrl: './cards.component.html',
+  styleUrls: ['./cards.component.scss']
 })
 export class CardsComponent {
-  cards: any[] = [];
-  addAmount = 0;
-  payAmount = 0;
+  userId = 'd398ab9c-04d0-428b-b9cb-c9b5b5a2b4d1';
+  activated = false;
+  loading = false;
 
   constructor(private cardService: CardService) {}
 
-  // 🔹 Cargar todas las tarjetas del usuario
-  loadCards() {
-    const userId = 'b31e7bd3-0b03-48be-a720-de1d4ca4a96c'; // temporal
-    this.cardService.getCards(userId).subscribe({
-      next: (res: any) => {
-        console.log('💳 Tarjetas obtenidas:', res);
-        this.cards = Array.isArray(res) ? res : [res];
-      },
-      error: (err) => console.error('❌ Error al cargar tarjetas:', err)
-    });
-  }
-
-  // 🔹 Crear tarjeta nueva
-  createCard(type: 'DEBIT' | 'CREDIT') {
-    const userId = 'b31e7bd3-0b03-48be-a720-de1d4ca4a96c';
-    this.cardService.createCard(userId, type).subscribe({
+  activateCard() {
+    this.loading = true;
+    this.cardService.activateCreditCard(this.userId).subscribe({
       next: () => {
-        alert(`✅ Tarjeta ${type} creada correctamente`);
-        this.loadCards();
+        this.activated = true;
+        this.loading = false;
+
+        // ✨ Mostrar mensaje
+        alert('🎉 Tarjeta de crédito activada correctamente');
+
+        // 🎊 Lanzar confeti
+        this.launchConfetti();
       },
-      error: (err) => console.error('❌ Error al crear tarjeta:', err)
+      error: (err) => {
+        this.loading = false;
+        console.error('❌ Error al activar tarjeta:', err);
+        alert('❌ No se pudo activar la tarjeta');
+      }
     });
   }
 
-  // 🔹 Activar tarjeta
-  activateCard(userId: string) {
-    this.cardService.activateCard(userId).subscribe({
-      next: () => alert('⚙️ Tarjeta activada correctamente'),
-      error: (err) => console.error('❌ Error al activar tarjeta:', err)
-    });
-  }
+  private launchConfetti() {
+    const duration = 2 * 1000;
+    const end = Date.now() + duration;
 
-  // 🔹 Agregar saldo (solo débito)
-  saveTransaction(cardId: string) {
-    this.cardService.saveTransaction(cardId, this.addAmount).subscribe({
-      next: () => alert('💵 Saldo agregado exitosamente'),
-      error: (err) => console.error('❌ Error al agregar saldo:', err)
-    });
-  }
+    const colors = ['#0033a0', '#00a1e4', '#ffc300', '#00ffb3'];
 
-  // 🔹 Pagar crédito
-  payCredit(cardId: string) {
-    this.cardService.payCredit(cardId, this.payAmount).subscribe({
-      next: () => alert('💰 Pago realizado correctamente'),
-      error: (err) => console.error('❌ Error al pagar crédito:', err)
-    });
-  }
+    (function frame() {
+      confetti({
+        particleCount: 4,
+        angle: 60,
+        spread: 55,
+        origin: { x: 0 },
+        colors,
+      });
+      confetti({
+        particleCount: 4,
+        angle: 120,
+        spread: 55,
+        origin: { x: 1 },
+        colors,
+      });
 
-  // 🔹 Generar reporte
-  getReport(cardId: string) {
-    this.cardService.getReport(cardId).subscribe({
-      next: (res: any) => {
-        alert('📊 Reporte generado y enviado al correo');
-        console.log(res);
-      },
-      error: (err) => console.error('❌ Error al generar reporte:', err)
-    });
+      if (Date.now() < end) {
+        requestAnimationFrame(frame);
+      }
+    })();
   }
 }

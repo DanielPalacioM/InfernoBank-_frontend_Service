@@ -33,20 +33,19 @@ export class RegisterComponent implements OnInit {
 
   registerUser(): void {
     if (this.registerForm.invalid) return;
-
     this.loading = true;
 
     this.authService.register(this.registerForm.value).subscribe({
-  next: (res) => {
-    console.log('✅ Respuesta:', res);
-    alert('Usuario registrado con éxito');
-    this.router.navigate(['/login']);
-  },
-  error: (err) => {
-    console.error('❌ Error al registrar usuario:', err);
-    alert('Error al registrar usuario. Revisa la consola.');
-  },
-  complete: () => (this.loading = false)
-});
+      next: (res) => {
+        console.log('✅ Usuario registrado:', res);
+
+        // ✅ Redirige directamente al login sin alert
+        this.router.navigate(['/login']);
+      },
+      error: (err) => {
+        console.error('❌ Error al registrar usuario:', err);
+      },
+      complete: () => (this.loading = false)
+    });
   }
 }

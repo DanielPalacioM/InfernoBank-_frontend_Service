@@ -1,19 +1,20 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { UserService } from '../../services/userService/userService/user.service';
 
 @Component({
   selector: 'app-home',
   standalone: true,
   imports: [CommonModule, RouterModule],
-  templateUrl: './home.component.html'
+  templateUrl: './home.component.html',
+  styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
   balance: number | null = null;
   loading = true;
 
-  constructor(private userService: UserService) {}
+  constructor(private userService: UserService, private router: Router) {}
 
   ngOnInit(): void {
     const userId = localStorage.getItem('userId');
@@ -34,5 +35,10 @@ export class HomeComponent implements OnInit {
         this.loading = false;
       }
     });
+  }
+
+  logout(): void {
+    localStorage.clear();
+    this.router.navigate(['/login']);
   }
 }

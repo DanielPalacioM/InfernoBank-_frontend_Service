@@ -1,44 +1,42 @@
-<div class="bg-gradient-to-br from-blue-800 to-blue-400 text-white rounded-2xl p-6 shadow-lg">
-  <h1 class="text-2xl font-semibold mb-4">Bienvenido a tu Banco Online 💳</h1>
-
-  <div class="flex flex-col md:flex-row justify-between items-center">
-    <div>
-      <p class="text-lg mb-2">Saldo actual:</p>
-
-      <ng-container *ngIf="!loading; else loadingBlock">
-        <h2 class="text-4xl font-bold">
-          $ {{ balance !== null ? (balance | number:'1.0-0') : '0' }}
-        </h2>
-      </ng-container>
-
-      <ng-template #loadingBlock>
-        <p class="italic text-gray-200">Cargando saldo...</p>
-      </ng-template>
-    </div>
-
-    <div class="space-x-3 mt-4 md:mt-0">
-      <button routerLink="/transactions" class="btn-yellow">Ver Transacciones</button>
-      <button routerLink="/profile" class="btn-white">Ver Perfil</button>
-    </div>
-  </div>
+<!-- 🔹 Header con botón de cerrar sesión -->
+<div class="header-actions">
+  <button class="icon-btn logout" (click)="logout()">
+    <img src="assets/icons/logout.svg" alt="Cerrar sesión" class="icon" />
+    <span>Cerrar sesión</span>
+  </button>
 </div>
 
-<div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
-  <div class="card">
-    <h3>💸 Transferencias</h3>
-    <p>Envía dinero a otros usuarios fácilmente.</p>
-    <button routerLink="/transactions" class="btn-blue">Transferir</button>
+<!-- 💳 Contenedor principal -->
+<div class="home-container">
+  <div class="balance-card animate-fade-in">
+    <h1 class="title">Bienvenido a tu Banco Online 💳</h1>
+
+    <p class="subtitle">
+      Gestiona tus tarjetas y transacciones de forma rápida y segura.
+    </p>
+
+    <div class="actions">
+      <button routerLink="/transactions" class="btn-yellow">
+        💸 Ver Transacciones
+      </button>
+      <button routerLink="/cards" class="btn-white">
+        💳 Ver Tarjetas
+      </button>
+    </div>
   </div>
 
-  <div class="card">
-    <h3>💳 Tarjetas</h3>
-    <p>Consulta tus tarjetas activas o solicita una nueva.</p>
-    <button routerLink="/cards" class="btn-blue">Ver tarjetas</button>
-  </div>
+  <!-- 🔹 Sección inferior con opciones -->
+  <div class="card-grid">
+    <div class="feature-card animate-slide-up">
+      <h3>💸 Transferencias</h3>
+      <p>Envía dinero a otros usuarios fácilmente.</p>
+      <button routerLink="/transactions" class="btn-blue">Transferir</button>
+    </div>
 
-  <div class="card">
-    <h3>📄 Notificaciones</h3>
-    <p>Revisa alertas de movimientos o cambios en tu cuenta.</p>
-    <button routerLink="/notifications" class="btn-blue">Ver notificaciones</button>
+    <div class="feature-card animate-slide-up">
+      <h3>💳 Tarjetas</h3>
+      <p>Consulta tus tarjetas activas o solicita una nueva.</p>
+      <button routerLink="/cards" class="btn-blue">Ver tarjetas</button>
+    </div>
   </div>
 </div>
