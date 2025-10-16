@@ -1,35 +1,52 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule, CurrencyPipe } from '@angular/common'; // <-- aquí
-import { CatalogService } from '../../../services/catalog/catalog.service';
-import { Card } from '../../../services/catalog/catalog.service'; 
+import { CommonModule, CurrencyPipe } from '@angular/common';
+import { CatalogService, Card } from '../../../services/catalog/catalog.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-catalog',
   standalone: true,
-  imports: [CommonModule, CurrencyPipe], // <-- agregar CurrencyPipe aquí
+  imports: [CommonModule, CurrencyPipe],
   templateUrl: './catalog.component.html',
   styleUrls: ['./catalog.component.scss']
 })
 export class CatalogComponent implements OnInit {
-  cards: Card[] = [];
+  servicios: Card[] = [];
   loading = false;
+  error = false;
 
-  constructor(private catalogService: CatalogService) {}
+  constructor(
+    private catalogService: CatalogService,
+    private router: Router
+  ) {}
 
-  ngOnInit() {
-    this.loadCards();
+  ngOnInit(): void {
+    this.loadServicios();
   }
 
-  loadCards() {
+  loadServicios(): void {
     this.loading = true;
+    this.error = false;
+
     this.catalogService.getCards().subscribe({
       next: (res) => {
-        this.cards = res;
+        this.servicios = res;
+        console.log('✅ Servicios cargados:', res);
         this.loading = false;
       },
       error: (err) => {
-        console.error('Error cargando cards:', err);
+        console.error('❌ Error cargando servicios:', err);
+        this.error = true;
         this.loading = false;
+      }
+    });
+  }
+
+  pagar(servicio: Card): void {
+    this.router.navigate(['/payment'], {
+      state: {
+        cardId: servicio.id,
+        service: servicio
       }
     });
   }

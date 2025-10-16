@@ -1,58 +1,61 @@
 .catalog-container {
-  padding: 20px;
-  max-width: 1000px;
-  margin: 0 auto;
-}
+  padding: 2rem;
+  font-family: 'Poppins', sans-serif;
+  text-align: center;
+  color: #003366;
 
-.catalog-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
-
-  h2 {
-    font-size: 1.8rem;
-    font-weight: 600;
+  h1 {
+    color: #0033a0;
+    margin-bottom: 1.5rem;
   }
 
-  button {
-    padding: 8px 16px;
-    background-color: #4CAF50;
-    border: none;
-    color: white;
-    border-radius: 5px;
-    cursor: pointer;
-    font-weight: 500;
-    transition: background-color 0.3s;
+  .status {
+    font-size: 1.1rem;
+    margin-top: 2rem;
+  }
+
+  .error {
+    color: #d9534f;
+  }
+
+  .grid {
+    display: grid;
+    gap: 1.5rem;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    margin-top: 2rem;
+  }
+
+  .service-card {
+    background: #fff;
+    padding: 1.5rem;
+    border-radius: 16px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease;
 
     &:hover {
-      background-color: #45a049;
+      transform: translateY(-4px);
+    }
+
+    h3 {
+      color: #0033a0;
+      margin-bottom: 0.8rem;
+    }
+
+    button {
+      margin-top: 1rem;
+      background: linear-gradient(90deg, #00a1e4, #0033a0);
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      padding: 0.6rem 1.2rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+
+      &:hover {
+        background: linear-gradient(90deg, #0033a0, #00a1e4);
+        transform: translateY(-2px);
+      }
     }
   }
-}
-
-.catalog-table {
-  width: 100%;
-  border-collapse: collapse;
-  box-shadow: 0 0 10px rgba(0,0,0,0.1);
-
-  th, td {
-    padding: 12px;
-    text-align: left;
-    border-bottom: 1px solid #ddd;
-  }
-
-  th {
-    background-color: #f4f4f4;
-  }
-
-  tr:hover {
-    background-color: #f9f9f9;
-  }
-}
-
-.loading {
-  text-align: center;
-  font-size: 1.2rem;
-  color: #555;
 }

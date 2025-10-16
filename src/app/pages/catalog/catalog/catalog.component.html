@@ -1,15 +1,18 @@
-<div *ngIf="loading">Cargando catálogo...</div>
-<table *ngIf="!loading">
-  <tr>
-    <th>ID</th>
-    <th>Nombre</th>
-    <th>Descripción</th>
-    <th>Precio</th>
-  </tr>
-  <tr *ngFor="let card of cards">
-    <td>{{ card.id }}</td>
-    <td>{{ card.name }}</td>
-    <td>{{ card.description }}</td>
-    <td>{{ card.price | currency }}</td>
-  </tr>
-</table>
+<div class="catalog-container">
+  <h1>🧾 Catálogo de Servicios</h1>
+
+  <div *ngIf="loading" class="status">Cargando servicios...</div>
+  <div *ngIf="error" class="status error">❌ Error al cargar el catálogo</div>
+
+  <div *ngIf="!loading && !error" class="grid">
+    <div *ngFor="let item of servicios" class="service-card">
+      <h3>{{ item.servicio || item.name }}</h3>
+      <p><strong>Proveedor:</strong> {{ item.proveedor }}</p>
+      <p><strong>Categoría:</strong> {{ item.categoria }}</p>
+      <p><strong>Precio mensual:</strong> {{ item.precio_mensual | currency:'USD' }}</p>
+      <p><strong>Plan:</strong> {{ item.plan }}</p>
+
+      <button (click)="pagar(item)">💰 Pagar servicio</button>
+    </div>
+  </div>
+</div>

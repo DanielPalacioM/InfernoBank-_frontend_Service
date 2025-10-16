@@ -1,7 +1,6 @@
 <!-- 🔹 Header con botón de cerrar sesión -->
 <div class="header-actions">
   <button class="icon-btn logout" (click)="logout()">
-    <img src="assets/icons/logout.svg" alt="Cerrar sesión" class="icon" />
     <span>Cerrar sesión</span>
   </button>
 </div>
@@ -12,7 +11,7 @@
     <h1 class="title">Bienvenido a tu Banco Online 💳</h1>
 
     <p class="subtitle">
-      Gestiona tus tarjetas y transacciones de forma rápida y segura.
+      Gestiona tus tarjetas, pagos y servicios de forma rápida y segura.
     </p>
 
     <div class="actions">
@@ -27,6 +26,7 @@
 
   <!-- 🔹 Sección inferior con opciones -->
   <div class="card-grid">
+
     <div class="feature-card animate-slide-up">
       <h3>💸 Transferencias</h3>
       <p>Envía dinero a otros usuarios fácilmente.</p>
@@ -38,5 +38,20 @@
       <p>Consulta tus tarjetas activas o solicita una nueva.</p>
       <button routerLink="/cards" class="btn-blue">Ver tarjetas</button>
     </div>
+
+    <!-- 🧾 Nuevo: Catálogo de servicios -->
+    <div class="feature-card animate-slide-up">
+      <h3>🧾 Catálogo</h3>
+      <p>Explora servicios disponibles y sus planes.</p>
+      <button routerLink="/catalog" class="btn-blue">Ver catálogo</button>
+    </div>
+
+    <!-- 💰 Nuevo: Pagos -->
+    <div class="feature-card animate-slide-up">
+      <h3>💰 Pagos</h3>
+      <p>Revisa el estado de tus pagos recientes.</p>
+      <button routerLink="/payment" class="btn-blue">Ver pagos</button>
+    </div>
+
   </div>
 </div>

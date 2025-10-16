@@ -1,17 +1,18 @@
-<div *ngIf="loading">Cargando pagos...</div>
-<table *ngIf="!loading">
-  <tr>
-    <th>ID</th>
-    <th>Monto</th>
-    <th>Estado</th>
-    <th>Trace ID</th>
-    <th>Fecha</th>
-  </tr>
-  <tr *ngFor="let pay of payments">
-    <td>{{ pay.id }}</td>
-    <td>{{ pay.amount | currency }}</td>
-    <td>{{ pay.status }}</td>
-    <td>{{ pay.traceId }}</td>
-    <td>{{ pay.date }}</td>
-  </tr>
-</table>
+<div class="payment-container">
+  <h1>💳 Pago del Servicio</h1>
+
+  <div *ngIf="service">
+    <p><strong>Servicio:</strong> {{ service.name }}</p>
+    <p><strong>Precio:</strong> {{ service.precio_mensual | currency:'USD' }}</p>
+    <p><strong>Detalles:</strong> {{ service.detalles }}</p>
+    <p><strong>Estado:</strong> {{ service.estado }}</p>
+
+    <button (click)="pagar()" [disabled]="loading">
+      {{ loading ? 'Procesando...' : 'Confirmar Pago' }}
+    </button>
+  </div>
+
+  <div *ngIf="resultado">
+    <p>✅ Pago exitoso, traceId: {{ resultado.traceId }}</p>
+  </div>
+</div>

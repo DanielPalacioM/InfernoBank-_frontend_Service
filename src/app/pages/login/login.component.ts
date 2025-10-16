@@ -40,13 +40,10 @@ export class LoginComponent implements OnInit {
         if (token) {
           localStorage.setItem('token', token);
           console.log('🔑 Token guardado correctamente.');
-
-          // ✅ Redirige automáticamente al home sin alert
-          this.router.navigate(['/home']);
-        } else {
-          console.warn('⚠️ No se recibió token en la respuesta.');
         }
 
+        // ✅ Redirige automáticamente al home
+        this.router.navigate(['/home']);
         this.loading = false;
       },
       error: (err: any) => {

@@ -21,4 +21,5 @@ export class CardService {
   activateCreditCard(userId: string): Observable<any> {
     return this.http.post(environment.endpoints.creditActivate, { userId }, { headers: this.getHeaders() });
   }
+  
 }
