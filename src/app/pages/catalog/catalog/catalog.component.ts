@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule, CurrencyPipe } from '@angular/common';
 import { CatalogService, Card } from '../../../services/catalog/catalog.service';
 import { Router } from '@angular/router';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-catalog',
@@ -17,7 +18,8 @@ export class CatalogComponent implements OnInit {
 
   constructor(
     private catalogService: CatalogService,
-    private router: Router
+    private router: Router,
+    private location:Location,
   ) {}
 
   ngOnInit(): void {
@@ -50,4 +52,9 @@ export class CatalogComponent implements OnInit {
       }
     });
   }
+
+  goBack() {
+    this.location.back();
+  }
+
 }

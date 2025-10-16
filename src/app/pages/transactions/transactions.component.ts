@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { TransactionService } from '../../services/transaction/transaction/transaction.service';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-transactions',
@@ -17,7 +18,7 @@ export class TransactionsComponent implements OnInit {
   addMoneyData = { cardId: '', amount: 0 };
   purchaseData = { cardId: '', amount: 0, merchant: '' };
 
-  constructor(private txService: TransactionService) {}
+  constructor(private txService: TransactionService, private location: Location) {}
 
   ngOnInit(): void {
     this.loadTransactions();
@@ -76,4 +77,8 @@ makePurchase() {
     }
   });
 }
+
+goBack() {
+    this.location.back();
+  }
 }

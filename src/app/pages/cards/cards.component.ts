@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CardService } from '../../services/card/card/card.service';
+import { Location } from '@angular/common';
 import confetti from 'canvas-confetti'; // 🎉 importamos la librería
 
 @Component({
@@ -15,7 +16,12 @@ export class CardsComponent {
   activated = false;
   loading = false;
 
-  constructor(private cardService: CardService) {}
+  constructor(private cardService: CardService, private location: Location) {}
+
+
+  goBack() {
+    this.location.back();
+  }
 
   activateCard() {
     this.loading = true;

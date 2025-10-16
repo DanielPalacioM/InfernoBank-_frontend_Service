@@ -3,20 +3,23 @@
   padding: 2rem;
   font-family: 'Poppins', sans-serif;
   color: #003366;
+  background: linear-gradient(135deg, #0033a0 0%, #0072ce 100%);
+  min-height: 100vh;
 
   h1 {
     margin-bottom: 1rem;
-    color: #0033a0;
+    color: #ffe145;
   }
 
   .status-card {
     margin: 1.5rem auto;
     background: #fff;
     border-radius: 12px;
-    padding: 1rem 2rem;
+    padding: 1.5rem 2rem;
     box-shadow: 0 4px 15px rgba(0,0,0,0.1);
     width: 90%;
     max-width: 400px;
+    color: #003366;
   }
 
   .details {
@@ -24,9 +27,27 @@
     border-radius: 10px;
     padding: 1rem;
     margin-top: 1rem;
+
     h3 {
       margin: 0.5rem 0;
       color: #0033a0;
+    }
+  }
+
+  button {
+    margin-top: 1.2rem;
+    background: linear-gradient(90deg, #ffc300, #ffd633);
+    color: #0033a0;
+    border: none;
+    border-radius: 10px;
+    padding: 0.8rem 1.5rem;
+    font-weight: 600;
+    transition: 0.3s;
+    cursor: pointer;
+
+    &:hover {
+      transform: translateY(-2px);
+      background: linear-gradient(90deg, #ffd633, #ffe066);
     }
   }
 }

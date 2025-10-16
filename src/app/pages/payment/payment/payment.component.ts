@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PaymentService } from '../../../services/payment/payment.service';
 import { Router } from '@angular/router';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-payment',
@@ -15,7 +16,7 @@ export class PaymentComponent implements OnInit {
   resultado: any;
   loading = false;
 
-  constructor(private paymentService: PaymentService, private router: Router) {}
+  constructor(private paymentService: PaymentService, private router: Router, private location: Location) {}
 
   ngOnInit() {
     const nav = history.state;
@@ -93,5 +94,9 @@ export class PaymentComponent implements OnInit {
         });
       }, 3000); // consulta cada 3 segundos
     }, 4000); // espera 4 segundos antes de la primera consulta
+  }
+
+  goBack() {
+    this.location.back();
   }
 }
