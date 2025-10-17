@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PaymentService } from '../../../services/payment/payment.service';
+import { CardService } from '../../../services/cardService/card-service/card.service';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common';
 
@@ -15,20 +16,55 @@ export class PaymentComponent implements OnInit {
   service: any;
   resultado: any;
   loading = false;
+  cardId: string | null = null;
 
-  constructor(private paymentService: PaymentService, private router: Router, private location: Location) {}
+  constructor(
+    private paymentService: PaymentService,
+    private cardService: CardService,
+    private router: Router,
+    private location: Location
+  ) {}
 
   ngOnInit() {
     const nav = history.state;
     this.service = nav.service;
+
+    const userId = localStorage.getItem('userId');
+    if (!userId) {
+      console.error('❌ No se encontró userId en localStorage.');
+      this.router.navigate(['/login']);
+      return;
+    }
+
+    // ✅ Obtener la tarjeta del usuario autenticado
+    this.cardService.getCardsByUser(userId).subscribe({
+      next: (cards) => {
+        console.log('💳 Tarjetas del usuario:', cards);
+
+        if (cards && cards.length > 0) {
+          // ✅ Usa la primera tarjeta activa (puedes cambiar la lógica si es necesario)
+          this.cardId = cards[0].cardId;
+          console.log('✅ Card ID seleccionado:', this.cardId);
+        } else {
+          console.warn('⚠️ El usuario no tiene tarjetas registradas.');
+        }
+      },
+      error: (err) => {
+        console.error('💥 Error al obtener tarjetas del usuario:', err);
+      }
+    });
   }
 
   pagar() {
+    if (!this.cardId) {
+      console.error('⚠️ No hay cardId disponible, no se puede procesar el pago.');
+      return;
+    }
+
     this.loading = true;
 
-    // ✅ Body igual al de Postman
     const body = {
-      cardId: '716d8a01-ff15-4223-ba49-a7fe96801d41',
+      cardId: this.cardId,
       service: this.service
     };
 
@@ -51,12 +87,11 @@ export class PaymentComponent implements OnInit {
     });
   }
 
-  // ✅ Espera antes de iniciar las consultas y reintenta hasta 10 veces
   verificarEstado(traceId: string) {
     console.log(`⏳ Esperando 4 segundos antes de consultar el estado del pago (${traceId})...`);
     setTimeout(() => {
       let intentos = 0;
-      const maxIntentos = 10; // 🔁 aumentamos los intentos
+      const maxIntentos = 10;
 
       const intervalo = setInterval(() => {
         intentos++;
@@ -79,7 +114,6 @@ export class PaymentComponent implements OnInit {
           error: (err: any) => {
             if (err.status === 404) {
               console.warn(`⚠️ Intento ${intentos}/${maxIntentos}: traceId no encontrado (${traceId})`);
-              // No corta el ciclo aún, puede aparecer en el siguiente intento
               if (intentos >= maxIntentos) {
                 clearInterval(intervalo);
                 console.error('❌ No se encontró el pago tras varios intentos.');
@@ -92,8 +126,8 @@ export class PaymentComponent implements OnInit {
             }
           }
         });
-      }, 3000); // consulta cada 3 segundos
-    }, 4000); // espera 4 segundos antes de la primera consulta
+      }, 3000);
+    }, 4000);
   }
 
   goBack() {

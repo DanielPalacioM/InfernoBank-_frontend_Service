@@ -21,17 +21,18 @@ export class HomeComponent implements OnInit {
 
     if (!userId) {
       console.error('❌ No se encontró el userId en localStorage.');
-      this.loading = false;
+      this.router.navigate(['/login']);
       return;
     }
 
     this.userService.getProfile(userId).subscribe({
       next: (res) => {
+        console.log('✅ Perfil obtenido:', res);
         this.balance = res.balance ?? 0;
         this.loading = false;
       },
       error: (err) => {
-        console.error('Error obteniendo perfil:', err);
+        console.error('💥 Error obteniendo perfil:', err);
         this.loading = false;
       }
     });

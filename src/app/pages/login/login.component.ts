@@ -28,6 +28,7 @@ export class LoginComponent implements OnInit {
     });
   }
 
+  /** 🚀 Iniciar sesión del usuario */
   loginUser(): void {
     if (this.loginForm.invalid) return;
     this.loading = true;
@@ -37,12 +38,19 @@ export class LoginComponent implements OnInit {
         console.log('✅ Respuesta del backend:', res);
 
         const token = res?.token;
+        const userId = res?.userId;
+
         if (token) {
           localStorage.setItem('token', token);
           console.log('🔑 Token guardado correctamente.');
         }
 
-        // ✅ Redirige automáticamente al home
+        if (userId) {
+          localStorage.setItem('userId', userId);
+          console.log('🆔 UserID guardado correctamente.');
+        }
+
+        // ✅ Redirigir al Home
         this.router.navigate(['/home']);
         this.loading = false;
       },

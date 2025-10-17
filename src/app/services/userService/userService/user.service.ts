@@ -14,9 +14,9 @@ export class UserService {
     return this.api.post('users', '/login', data);
   }
 
-  /** ✅ Obtener perfil desde la URL real */
+  /** ✅ Obtener perfil desde la ruta real */
   getProfile(userId: string): Observable<any> {
-    // la ruta base ya apunta a dev2/pr0file
+    // Ajustado para usar el path correcto en API Gateway (por ejemplo /profile/{id})
     return this.api.get('profile', `/${userId}`);
   }
 

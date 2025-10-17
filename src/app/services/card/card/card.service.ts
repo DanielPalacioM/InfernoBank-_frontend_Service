@@ -17,9 +17,14 @@ export class CardService {
     });
   }
 
-  // Activar tarjeta (solo endpoint real)
+  // ✅ Activar tarjeta (ya existente)
   activateCreditCard(userId: string): Observable<any> {
     return this.http.post(environment.endpoints.creditActivate, { userId }, { headers: this.getHeaders() });
   }
-  
+
+  // ✅ Nuevo: obtener tarjetas del usuario logueado
+  getCardsByUser(userId: string): Observable<any[]> {
+    const url = `https://x8ewzbrr6k.execute-api.us-east-1.amazonaws.com/Card/user/${userId}`;
+    return this.http.get<any[]>(url, { headers: this.getHeaders() });
+  }
 }
